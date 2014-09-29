@@ -41,7 +41,7 @@ case "$1" in
         # Temporarily store it to a file
         if [[ ! -d $DOKKU_ROOT/.mysql ]]; then
             mkdir -p $DOKKU_ROOT/.mysql
-            chown -R git: $DOKKU_ROOT/.mysql
+            chown -R dokku: $DOKKU_ROOT/.mysql
         fi
         echo $DB_PASS > "$DOKKU_ROOT/.mysql/pwd_$APP"
         chown git: "$DOKKU_ROOT/.mysql/pwd_$APP"
@@ -131,15 +131,15 @@ case "$1" in
         # Write database connection vars to app's ENV file
         # I know there has to be a more eloquent method of doing this...
         HOST="DB_HOST=$IP"
-        cat "$DOKKU_ROOT/$APP/ENV" | grep "$HOST" || echo "export $HOST" >> "/home/git/$APP/ENV"
+        cat "$DOKKU_ROOT/$APP/ENV" | grep "$HOST" || echo "export $HOST" >> "$DOKKU_ROOT/g/$APP/ENV"
         USER="DB_USER=admin"
-        cat "$DOKKU_ROOT/$APP/ENV" | grep "$USER" || echo "export $USER" >> "/home/git/$APP/ENV"
+        cat "$DOKKU_ROOT/$APP/ENV" | grep "$USER" || echo "export $USER" >> "$DOKKU_ROOT/g/$APP/ENV"
         PASS="DB_PASS=$DB_PASSWORD"
-        cat "$DOKKU_ROOT/$APP/ENV" | grep "$PASS" || echo "export $PASS" >> "/home/git/$APP/ENV"
+        cat "$DOKKU_ROOT/$APP/ENV" | grep "$PASS" || echo "export $PASS" >> "$DOKKU_ROOT/g/$APP/ENV"
         NAME="DB_NAME=db"
-        cat "$DOKKU_ROOT/$APP/ENV" | grep "$NAME" || echo "export $NAME" >> "/home/git/$APP/ENV"
+        cat "$DOKKU_ROOT/$APP/ENV" | grep "$NAME" || echo "export $NAME" >> "$DOKKU_ROOT/g/$APP/ENV"
         PORT="DB_PORT=3306"
-        cat "$DOKKU_ROOT/$APP/ENV" | grep "$PORT" || echo "export $PORT" >> "/home/git/$APP/ENV"
+        cat "$DOKKU_ROOT/$APP/ENV" | grep "$PORT" || echo "export $PORT" >> "$DOKKU_ROOT/g/$APP/ENV"
         echo
         echo "-----> $APP linked to $DB_IMAGE database"
         rm "$DOKKU_ROOT/.mysql/pwd_$APP"
